@@ -21,7 +21,18 @@ public:
     }
     int combinationSum4(vector<int>& nums, int target) {
         vector<int> dp(target+1,-1);
-        func(target,nums,dp);
+        dp[0] = 1;
+        for(int i=1;i<=target;i++){
+            long long take=0;
+            for(int j=0;j<nums.size();j++){
+                if(i-nums[j]>=0){
+                take+=dp[i-nums[j]];
+                }
+            }
+            // int ntake = func(target-nums[ind],nums,ind+1);
+            dp[i] = take;
+        }
+        // func(target,nums,dp);
         return dp[target];
     }
 };
