@@ -19,6 +19,7 @@ public:
         int n = nums.size();
         int low = *max_element(nums.begin(),nums.end());
         long long sum = 0;
+        int ans = -1;
         for(auto it: nums){
             sum+=it;
         }
@@ -29,9 +30,10 @@ public:
             if(val==1){
                 low = mid+1;
             }else{
+                ans = mid;
                 high = mid-1;
             }
         }
-        return low;
+        return ans;
     }
 };
