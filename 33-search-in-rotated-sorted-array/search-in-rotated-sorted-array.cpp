@@ -22,7 +22,7 @@ public:
 
         while (low <= high) {
             int mid = low + (high - low) / 2;
-            int newmid = (mid+index)%k;
+            int newmid = mod((mid + index), k);
 
             if (nums[newmid] == target) {
                 return newmid;
