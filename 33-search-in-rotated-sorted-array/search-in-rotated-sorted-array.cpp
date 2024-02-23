@@ -1,5 +1,11 @@
 class Solution {
 public:
+    int mod(int a, int n) {
+        if (a < 0) {
+            a = a + n;
+        }
+        return a % n;
+    }
 
     int search(vector<int>& nums, int target) {
         int k = nums.size();
