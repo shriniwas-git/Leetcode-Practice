@@ -1,18 +1,16 @@
+#include<bits/stdc++.h>
+using namespace std;
 class Solution {
 public:
     bool rotateString(string s, string goal) {
-        if(s==goal){
+        if (s.size() != goal.size()) {
+            return false;
+        }
+        if (s == goal) {
             return true;
         }
-        int n = s.size();
-        while(n--){
-            if(s==goal){
-                return true;
-            }
-            char c = s[s.size()-1];
-            string temp = s.substr(0,s.size()-1);
-            s = c + temp;
-        }
-        return false;
+        string whole = s + s;
+        // Use `find` to check if `goal` is a substring of `whole`
+        return whole.find(goal) != string::npos;
     }
 };
