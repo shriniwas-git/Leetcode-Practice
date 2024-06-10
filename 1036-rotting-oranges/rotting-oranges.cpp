@@ -1,44 +1,46 @@
 class Solution {
 public:
     int orangesRotting(vector<vector<int>>& grid) {
-        queue<pair<int,pair<int,int>>> q;
-        for(int i=0;i<grid.size();i++){
-            for(int j=0;j<grid[0].size();j++){
-                if(grid[i][j]==2){
-                    q.push({0,{i,j}});
-                    cout << i << j << endl;
-                }
-            }
-        }
+        queue<pair<pair<int,int>,int>> q;
         int n = grid.size();
         int m = grid[0].size();
-        int dx[] = {0,1,-1,0};
-        int dy[] = {1,0,0,-1};
-        int ans = 0;
-        while(!q.empty()){
-            int x = q.front().second.first;
-            int y = q.front().second.second;
-            int val = q.front().first;
-            q.pop();
-            ans = max(ans,val);
-            for(int i=0;i<4;i++){
-                int nx = x + dx[i];
-                int ny = y + dy[i];
-                if(nx>=0 && nx<n && ny>=0 && ny<m && grid[nx][ny]==1){
-                    grid[nx][ny]=2;
-                    q.push({val+1,{nx,ny}});
-                }
-            }
-        }
-        // int ct=0;
+        vector<vector<int>> vis(n, vector<int> (m,0));
         for(int i=0;i<n;i++){
-            for(int j=0;j<grid[0].size();j++){
-                if(grid[i][j]==1){
-                    ans = -1;
-                    // ct++;
+            for(int j=0;j<m;j++){
+                if(grid[i][j]==2){
+                    q.push({{i,j},0});
+                    vis[i][j] = 1;
                 }
             }
         }
-        return ans;
+        int dr[] = {-1,0,1,0};
+        int dc[] = {0,1,0,-1};
+        int time = 0;
+        while(!q.empty()){
+            auto cur = q.front();
+            q.pop();
+            int r = cur.first.first;
+            int c = cur.first.second;
+            int curTime = cur.second;
+            time = max(time,curTime);
+            for(int i=0;i<4;i++){
+                int newRow = r + dr[i];
+                int newCol = c + dc[i];
+                if(newRow>=0 && newRow<n && newCol>=0 && newCol<m 
+                && vis[newRow][newCol]==0 && grid[newRow][newCol]==1){
+                    vis[newRow][newCol] = 1;
+                    grid[newRow][newCol] = 2;
+                    q.push({{newRow,newCol},curTime+1});
+                }
+            }
+        }
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(grid[i][j]==1){
+                    return -1;
+                }
+            }
+        }
+        return time;
     }
 };
