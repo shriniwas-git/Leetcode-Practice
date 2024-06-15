@@ -60,11 +60,13 @@ public:
             int v = it[1];
             ds.unionBySize(u,v);
         }
-        set<int> s;
+        int ct=0;
         for(int i=0;i<n;i++){
-            s.insert(ds.findUPar(i));
+            if(ds.findUPar(i)==i){
+                ct++;
+            }
         }
-        return s.size()-1;
+        return ct-1;
 
     }
 };
