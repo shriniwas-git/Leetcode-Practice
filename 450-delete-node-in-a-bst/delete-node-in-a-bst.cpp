@@ -11,33 +11,34 @@
  */
 class Solution {
 public:
-    TreeNode* rtmost(TreeNode* node){
+    TreeNode* LRM(TreeNode* node){
         if(node->right==NULL){
             return node;
         }
-        return rtmost(node->right);
+        return LRM(node->right);
     }
     TreeNode* helper(TreeNode* node){
-        if(node->left==NULL){
-            return node->right;
-        }else if(node->right==NULL){
+        if(node->right==NULL){
             return node->left;
         }
-        TreeNode* leftone = node->left;
-        TreeNode* rtone = node->right;
-        TreeNode* ledge = rtmost(node->left);
-        ledge->right = node->right;
-        return leftone;
+        if(node->left==NULL){
+            return node->right;
+        }
+        TreeNode* rightChild = node->right;
+        TreeNode* leftChild = node->left;
+        TreeNode* leftRightMost = LRM(leftChild);
+        leftRightMost->right = rightChild;
+        return leftChild;
     }
     TreeNode* deleteNode(TreeNode* root, int key) {
         if(root==NULL){
-            return NULL;
+            return root;
         }
         if(root->val==key){
             return helper(root);
         }
         TreeNode* dummy = root;
-        while(root){
+        while(root!=NULL){
             if(root->val>key){
                 if(root->left!=NULL && root->left->val==key){
                     root->left = helper(root->left);
