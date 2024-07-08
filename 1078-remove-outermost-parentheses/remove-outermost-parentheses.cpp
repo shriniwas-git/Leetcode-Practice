@@ -3,30 +3,22 @@ public:
     string removeOuterParentheses(string s) {
         string ans = "";
         int cto = 0;
-        int ctc = 0;
-        string temp="";
+        string temp = "";
         for(int i=0;i<s.size();i++){
             if(s[i]=='('){
                 cto++;
-            }else if(s[i]==')'){
-                ctc++;
-            }
-            if(cto==ctc){
-                if(cto!=1){
-                    ans+=temp;
-                    cout << i << " " << temp << endl;
-                    temp="";
+                if(cto>1 || temp.size()>0){
+                    temp+=s[i];
                 }
-                cto=0;
-                ctc=0;
-                continue;
-                
+            }else{
+                cto--;
+                if(cto==0){
+                    ans+=temp;
+                    temp = "";
+                }else{
+                    temp+=')';
+                }
             }
-            if(cto==1){
-                continue;
-            }
-            
-            temp+=s[i];
         }
         return ans;
     }
