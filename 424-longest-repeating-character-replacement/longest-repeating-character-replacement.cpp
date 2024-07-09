@@ -11,7 +11,7 @@ public:
             hash[s[right]-'A']++;
             mrcf = max(mrcf,hash[s[right]-'A']);
             //Distinct char count --> right-left+1 - (mrcf) --> length-mrcf
-            while(right<n && ((right-left+1)-mrcf>k)){
+            if(right<n && ((right-left+1)-mrcf>k)){
                 hash[s[left]-'A']--;
                 int temp_max = 0;
                 for(int i=0;i<26;i++){
