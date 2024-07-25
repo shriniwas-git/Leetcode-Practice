@@ -2,19 +2,19 @@ class Solution {
 public:
     int trap(vector<int>& height) {
         int n = height.size();
-        vector<int> pre(n,0);
-        vector<int> suf(n,0);
-        pre[0] = height[0];
-        for(int i=1;i<n;i++){
-            pre[i] = max(pre[i-1],height[i]);
-        }
-        suf[n-1] = height[n-1];
-        for(int i=n-2;i>=0;i--){
-            suf[i] = max(suf[i+1],height[i]);
-        }
+        int left=0,right = n-1;
         int ans = 0;
-        for(int i=0;i<n;i++){
-            ans+=(min(pre[i],suf[i])-height[i]);
+        int leftMax = 0,rightMax = 0;
+        while(left!=right){
+            if(height[left]<=height[right]){
+                leftMax = max(height[left],leftMax);
+                ans+=(leftMax-height[left]);
+                left++;
+            }else{
+                rightMax = max(height[right],rightMax);
+                ans+=((rightMax-height[right]));
+                right--;
+            }
         }
         return ans;
     }
