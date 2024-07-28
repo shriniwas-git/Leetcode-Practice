@@ -15,19 +15,22 @@ public:
     int minimumTotal(vector<vector<int>>& triangle) {
         int n = triangle.size();
         int m = triangle[n-1].size();
-        vector<vector<int>> dp(n,vector<int> (m,0));
+        // vector<vector<int>> dp(n,vector<int> (m,0));
         // int ans = func(0,0,triangle,dp);
         // return ans;
+        vector<int> prev(n,0);
         for(int j=0;j<m;j++){
-            dp[n-1][j] = triangle[n-1][j];
+            prev[j] = triangle[n-1][j];
         }
         for(int i=n-2;i>=0;i--){
+            vector<int> cur(n,0);
             for(int j=i;j>=0;j--){
-                int down = triangle[i][j] + dp[i+1][j];
-                int right = triangle[i][j] + dp[i+1][j+1];
-                dp[i][j] = min(down,right);
+                int down = triangle[i][j] + prev[j];
+                int right = triangle[i][j] + prev[j+1];
+                cur[j] = min(down,right);
             }
+            prev = cur;
         }
-        return dp[0][0];
+        return prev[0];
     }
 };
