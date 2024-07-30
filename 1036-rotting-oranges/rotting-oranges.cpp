@@ -1,15 +1,14 @@
 class Solution {
 public:
     int orangesRotting(vector<vector<int>>& grid) {
-        queue<pair<pair<int,int>,int>> q;
-        int n = grid.size();
-        int m = grid[0].size();
-        // vector<vector<int>> vis(n, vector<int> (m,0));
-        for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
-                if(grid[i][j]==2){
-                    q.push({{i,j},0});
-                    // vis[i][j] = 1;
+        vector<vector<int>> rot = grid;
+        queue<pair<int,pair<int,int>>> q;
+        int m = grid.size();
+        int n = grid[0].size();
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(rot[i][j]==2){
+                    q.push({0,{i,j}});
                 }
             }
         }
@@ -17,26 +16,24 @@ public:
         int dc[] = {0,1,0,-1};
         int time = 0;
         while(!q.empty()){
-            auto cur = q.front();
+            auto it = q.front();
             q.pop();
-            int r = cur.first.first;
-            int c = cur.first.second;
-            int curTime = cur.second;
-            time = max(time,curTime);
-            for(int i=0;i<4;i++){
-                int newRow = r + dr[i];
-                int newCol = c + dc[i];
-                if(newRow>=0 && newRow<n && newCol>=0 && newCol<m 
-                &&  grid[newRow][newCol]==1){
-                    // vis[newRow][newCol] = 1;
-                    grid[newRow][newCol] = 2;
-                    q.push({{newRow,newCol},curTime+1});
+            int curTime = it.first;
+            time = max(time,it.first);
+            int row = it.second.first;
+            int col = it.second.second;
+            for(int i=0;i<=3;i++){
+                int nrow = dr[i] + row;
+                int ncol = dc[i] + col;
+                if(nrow>=0 && nrow<m && ncol>=0 && ncol<n && rot[nrow][ncol]==1){
+                    rot[nrow][ncol] = 2;
+                    q.push({curTime+1,{nrow,ncol}});
                 }
             }
         }
-        for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
-                if(grid[i][j]==1){
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(rot[i][j]==1){
                     return -1;
                 }
             }
