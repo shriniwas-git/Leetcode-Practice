@@ -1,17 +1,15 @@
 class Solution {
 public:
     int removeDuplicates(vector<int>& nums) {
-        map<int,int> mark;
-        vector<int> ans;
+        set<int> s;
         for(auto it: nums){
-            if(mark[it]==0){
-                ans.push_back(it);
-            }
-            mark[it]++;
+            s.insert(it);
         }
-        for(int i=0;i<ans.size();i++){
-            nums[i] = ans[i];
+        int n = s.size();
+        int j = 0;
+        for(auto it: s){
+            nums[j++] = it;
         }
-        return ans.size();
+        return n;
     }
 };
