@@ -5,7 +5,7 @@ public:
         int k = n;
         int ans = 0;
         while(k!=0){
-            if(k%2!=0){
+            if(k&1==1){
                 ans++;
             }
             k = k>>1;
